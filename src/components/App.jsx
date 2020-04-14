@@ -1,5 +1,6 @@
 import React from "react";
 import { moviesData } from "../moviesData";
+import MovieItem from "./Movieitem";
 
 class App extends React.Component {
   constructor() {
@@ -8,14 +9,27 @@ class App extends React.Component {
     this.state = {
       movies: moviesData
     };
+    // this.removeMovie = this.removeMovie.bind(this);
+  }
+
+  removeMovie = movie => {
+    const updateMovies = this.state.movies.filter(function(item) {
+      return item.id !== movie.id;
+    });
+    console.log(updateMovies);
+    this.setState({
+      movies:updateMovies
+    });
   }
 
   render() {
     return (
       <div>
-        { this.state.movies.map(function(movie) {
-         return <p>{movie.title}</p>; 
-      })}
+        { this.state.movies.map(movie => {
+         return (
+          <MovieItem key={movie.id} movie={movie} removeMovie={this.removeMovie}/>
+        )
+        })}
       </div>
     );
   }
