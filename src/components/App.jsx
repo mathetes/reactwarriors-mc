@@ -17,15 +17,33 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`).then((response) => {
-      console.log("then")
-      return response.json()
-    }).then((data) => {
+    this.getMovies();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("DidUpdate");
+    console.log("prev",prevProps,prevState);
+    console.log("this", this.props, this.state);
+    if(prevState.sort_by !== this.state.sort_by) {
+      console.log("call api");
+      this.getMovies();
+    }
+  }
+
+  getMovies = () => {
+    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${
+      this.state.sort_by
+      }`
+    )
+      .then(response => {
+      return response.json();
+    })
+      .then(data => {
       console.log("data", data)
       this.setState({
         movies: data.results
-      })
-    })
+      });
+    });
   }
 
   removeMovie = movie => {
@@ -93,7 +111,7 @@ class App extends React.Component {
               </div>
             </div>
             <div className="col-3">
-              <p>Will Watch: {this.state.moviesWillWatch.length}</p>
+              <h2>Will Watch: {this.state.moviesWillWatch.length} movies</h2>
             </div>
           </div>
         </div>

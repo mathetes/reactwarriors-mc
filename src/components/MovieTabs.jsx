@@ -10,7 +10,7 @@ const handleCLick = value => {
 };
 
 const getClassLink = value => {
-    return `nav-link ${sort_by === "popularity.desc" ? "active" : ""}`;
+    return `nav-link ${sort_by === value ? "active" : ""}`;
 };
 
     return (

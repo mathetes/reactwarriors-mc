@@ -11,7 +11,13 @@ class MovieItem extends React.Component {
   }
 
   render() {
-    const { movie, removeMovie, addMovieToWillWatch, removeMovieFromWillWatch } = this.props;
+    const { 
+      movie,
+      removeMovie,
+      addMovieToWillWatch,
+      removeMovieFromWillWatch
+    } = this.props;
+
     return (
         <div className="card">
           <img
@@ -20,7 +26,6 @@ class MovieItem extends React.Component {
               movie.poster_path}`}
             alt=""
           />
-
         <div className="card-body">
           <h6 className="card-title">{movie.title}</h6>
           <div className="d-flex justify-content-between align-items-center">
