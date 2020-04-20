@@ -3,6 +3,7 @@ import React from "react";
 import MovieItem from "./Movieitem";
 import { API_URL, API_KEY_3 } from "../utils/api";
 import MovieTabs from "./MovieTabs";
+import MoviePages from "./MoviePages";
 
 class App extends React.Component {
   constructor() {
@@ -11,7 +12,8 @@ class App extends React.Component {
     this.state = {
       movies: [],
       moviesWillWatch: [],
-      sort_by: "revenue.desc"
+      sort_by: "revenue.desc",
+      pages: 0
     };
     // this.removeMovie = this.removeMovie.bind(this);
   }
@@ -22,29 +24,28 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log("DidUpdate");
-    console.log("prev",prevProps,prevState);
+    console.log("prev", prevProps, prevState);
     console.log("this", this.props, this.state);
-    if(prevState.sort_by !== this.state.sort_by) {
+    if (prevState.sort_by !== this.state.sort_by) {
       console.log("call api");
       this.getMovies();
     }
   }
 
   getMovies = () => {
-    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${
-      this.state.sort_by
-      }`
+    fetch(
+      `${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`
     )
       .then(response => {
-      return response.json();
-    })
+        return response.json();
+      })
       .then(data => {
-      console.log("data", data)
-      this.setState({
-        movies: data.results
+        console.log("data", data);
+        this.setState({
+          movies: data.results
+        });
       });
-    });
-  }
+  };
 
   removeMovie = movie => {
     const updateMovies = this.state.movies.filter(function(item) {
@@ -57,7 +58,9 @@ class App extends React.Component {
   };
 
   removeMovieFromWillWatch = movie => {
-    const updateMoviesWillWatch = this.state.moviesWillWatch.filter(function(item) {
+    const updateMoviesWillWatch = this.state.moviesWillWatch.filter(function(
+      item
+    ) {
       return item.id !== movie.id;
     });
     // console.log(updateMovies);
@@ -89,10 +92,10 @@ class App extends React.Component {
             <div className="col-9">
               <div className="row mb-4">
                 <div className="col-12">
-                  <MovieTabs 
+                  <MovieTabs
                     sort_by={this.state.sort_by}
                     updateSortBy={this.updateSortBy}
-                    />
+                  />
                 </div>
               </div>
               <div className="row">
@@ -113,6 +116,9 @@ class App extends React.Component {
             <div className="col-3">
               <h2>Will Watch: {this.state.moviesWillWatch.length} movies</h2>
             </div>
+          </div>
+          <div className="row">
+            <MoviePages pages={this.state.pages} />
           </div>
         </div>
       </div>
