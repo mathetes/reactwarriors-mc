@@ -13,7 +13,8 @@ class App extends React.Component {
       movies: [],
       moviesWillWatch: [],
       sort_by: "revenue.desc",
-      pages: 0
+      page: 1,
+      total_pages:[]
     };
     // this.removeMovie = this.removeMovie.bind(this);
   }
@@ -23,26 +24,30 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("DidUpdate");
-    console.log("prev", prevProps, prevState);
-    console.log("this", this.props, this.state);
+    // console.log("DidUpdate");
+    // console.log("prev", prevProps, prevState);
+    // console.log("this", this.props, this.state);
     if (prevState.sort_by !== this.state.sort_by) {
-      console.log("call api");
+      // console.log("call api");
       this.getMovies();
     }
+    // if (prevState.page !== this.state.page) {
+    //   this.getMovies();
+    // }
+
   }
 
   getMovies = () => {
     fetch(
-      `${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`
+      `${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&page=${this.state.page}`
     )
       .then(response => {
         return response.json();
       })
       .then(data => {
-        console.log("data", data);
+        // console.log("data", data);
         this.setState({
-          movies: data.results
+          movies: data.results, total_pages: data.total_pages
         });
       });
   };
@@ -84,6 +89,13 @@ class App extends React.Component {
     });
   };
 
+  updatePages = value => {
+    this.setState({
+      page: value
+    });
+    this.getMovies();
+  };
+
   render() {
     return (
       <div>
@@ -97,6 +109,13 @@ class App extends React.Component {
                     updateSortBy={this.updateSortBy}
                   />
                 </div>
+              </div>
+              <div className="row">
+                <MoviePages 
+                  page={this.state.page}
+                  total_pages={this.state.total_pages}
+                  updatePages={this.updatePages}        
+                  />
               </div>
               <div className="row">
                 {this.state.movies.map(movie => {
@@ -117,17 +136,10 @@ class App extends React.Component {
               <h2>Will Watch: {this.state.moviesWillWatch.length} movies</h2>
             </div>
           </div>
-          <div className="row">
-            <MoviePages pages={this.state.pages} />
-          </div>
         </div>
       </div>
     );
   }
 }
-
-// function App() {
-//   return <div>{ moviesData[0].title }</div>;
-// }
 
 export default App;
