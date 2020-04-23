@@ -31,9 +31,9 @@ class App extends React.Component {
       // console.log("call api");
       this.getMovies();
     }
-    // if (prevState.page !== this.state.page) {
-    //   this.getMovies();
-    // }
+    if (prevState.page !== this.state.page) {
+      this.getMovies();
+    }
 
   }
 
@@ -83,18 +83,15 @@ class App extends React.Component {
     });
   };
 
-  updateSortBy = value => {
+  updateSortBy = value => 
     this.setState({
       sort_by: value
-    });
-  };
+  });
 
-  updatePages = value => {
+  updatePages = value =>
     this.setState({
       page: value
-    });
-    this.getMovies();
-  };
+  });
 
   render() {
     return (
