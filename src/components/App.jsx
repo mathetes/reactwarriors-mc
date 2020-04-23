@@ -14,7 +14,8 @@ class App extends React.Component {
       moviesWillWatch: [],
       sort_by: "revenue.desc",
       page: 1,
-      total_pages:[]
+      total_pages:[],
+      btn: true
     };
     // this.removeMovie = this.removeMovie.bind(this);
   }
@@ -32,6 +33,9 @@ class App extends React.Component {
       this.getMovies();
     }
     if (prevState.page !== this.state.page) {
+      this.getMovies();
+    }
+    if (prevState.btn !== this.state.btn) {
       this.getMovies();
     }
 
@@ -93,6 +97,11 @@ class App extends React.Component {
       page: value
   });
 
+  switchBtn = value =>
+    this.setState({
+      btn: value
+  });
+
   render() {
     return (
       <div>
@@ -110,6 +119,7 @@ class App extends React.Component {
               <div className="row">
                 <MoviePages 
                   page={this.state.page}
+                  btn={this.state.btn}
                   total_pages={this.state.total_pages}
                   updatePages={this.updatePages}        
                   />

@@ -1,9 +1,10 @@
 import React from "react";
 import classNames from "classnames"; //A simple JavaScript utility for conditionally joining classNames together.
-
+import styles from './moviePages.css';
+ 
 const MoviePages = props => {
 
-  const {page, updatePages, total_pages} = props;
+  const {page, updatePages, total_pages, btn} = props;
 
   const handleCLick = value => {
     if(value >= 1) {
@@ -12,14 +13,10 @@ const MoviePages = props => {
     }};
   };
 
-  const activeClass = "active"; 
+  let toggleClass = classNames.bind(styles);
+
   const classNamesSwitcher = value => {
-    
-    if (activeClass===("active")) {
-      return classNames("page-item")
-    } else {
-      return classNames("page-item active")
-    }
+    return `page-item ${btn === value ? "active" : ""}`;
   }
 
   return (
@@ -27,10 +24,9 @@ const MoviePages = props => {
       <h2>All pages quality: {total_pages}</h2>
       <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-center">
-          <li className={classNamesSwitcher(activeClass)}>
+          <li className="page-item">
             <span 
-              className="page-link"
-              tabindex="-1"
+              className="page-link" 
               onClick={handleCLick(page - 1)}>
               Previous
             </span>
@@ -38,14 +34,13 @@ const MoviePages = props => {
           <li className="page-item">
             <span 
               className="page-link" 
-              tabindex="-1"
               onClick={page}>
               {page}
             </span>
           </li>
-          <li className={classNamesSwitcher(activeClass)}>
+          <li className="page-item active">
             <span
-              className="page-link"
+              className="page-link" 
               onClick={handleCLick(page + 1)}>
               Next
             </span>

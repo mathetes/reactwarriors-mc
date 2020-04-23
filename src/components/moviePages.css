@@ -1,0 +1,11 @@
+
+
+.page-item.active {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.page-item, .page-item.active:hover {
+    cursor: pointer;
+}
